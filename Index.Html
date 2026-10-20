@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bons Burguer | ¡Sabor y Diversión Animatrónica!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Creepster & Inter & Press Start 2P -->
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@300;400;600;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neonPurple: '#d946ef',
+                        neonBlue: '#22d3ee',
+                        neonYellow: '#ffe14d',
+                        darkBg: '#1b1048',
+                        cardBg: '#2b1a6b',
+                    },
+                    fontFamily: {
+                        creepster: ['Bungee', 'cursive'],
+                        arcade: ['"Press Start 2P"', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* ===== Retro arcade colorido ===== */
+        .stage-lights { background: radial-gradient(circle at 50% 0%, rgba(217,70,239,.45) 0%, transparent 60%),
+            radial-gradient(circle at 0% 100%, rgba(34,211,238,.28) 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(255,95,162,.28) 0%, transparent 50%), #1b1048 !important; }
+        .confetti { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22160%22%20height%3D%22160%22%3E%3Crect%20x%3D%2210%22%20y%3D%2214%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23ffe14d%22/%3E%3Crect%20x%3D%2270%22%20y%3D%2240%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%2322d3ee%22/%3E%3Crect%20x%3D%22120%22%20y%3D%2220%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23ff5fa2%22/%3E%3Crect%20x%3D%2240%22%20y%3D%2290%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23a3e635%22/%3E%3Crect%20x%3D%22100%22%20y%3D%22110%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23d946ef%22/%3E%3Crect%20x%3D%22145%22%20y%3D%2270%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23ffe14d%22/%3E%3Crect%20x%3D%2220%22%20y%3D%22140%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%2322d3ee%22/%3E%3Crect%20x%3D%2285%22%20y%3D%22150%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23ff5fa2%22/%3E%3C/svg%3E"); opacity:.55; animation: drift 14s linear infinite; }
+        @keyframes drift { to { background-position: 160px 160px; } }
+        header { position: fixed; }
+        header::after { content:""; position:absolute; left:0; right:0; bottom:-3px; height:3px;
+            background: repeating-linear-gradient(90deg,#ff5fa2 0 40px,#ffe14d 40px 80px,#22d3ee 80px 120px,#a3e635 120px 160px); }
+        .shadow-lg, .shadow-xl, .shadow-2xl { box-shadow: 5px 5px 0 rgba(0,0,0,.45) !important; } /* sombra dura estilo píxel */
+        .border-gray-800, .border-gray-900 { border-color: rgba(255,255,255,.2) !important; }
+        .text-gray-400 { color:#d6d0ff !important; } .text-gray-500 { color:#b3a9ee !important; }
+        .bg-gray-800 { background:#3f2c8f !important; }
+        @media (prefers-reduced-motion: reduce) { .confetti, .neon-title, .neon-box { animation:none !important; } }
+        html { scroll-padding-top: 5rem; } /* el header fijo ya no tapa las secciones */
+        @keyframes neonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #d946ef, 0 0 80px #d946ef, 0 0 90px #d946ef;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        
+        @keyframes boxNeonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                box-shadow: 0 0 15px rgba(217, 70, 239, 0.6), inset 0 0 15px rgba(34, 211, 238, 0.4);
+            }
+            20%, 24%, 55% {
+                box-shadow: none;
+            }
+        }
+
+        .neon-title {
+            animation: neonFlicker 3s infinite alternate;
+        }
+
+        .neon-box {
+            animation: boxNeonFlicker 4s infinite alternate;
+        }
+
+        .scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.12) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        .stage-lights {
+            background: radial-gradient(circle at 50% 0%, rgba(217, 70, 239, 0.3) 0%, rgba(27, 16, 72, 0.96) 70%);
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-100 font-sans selection:bg-neonPurple selection:text-white overflow-x-hidden">
+
+    <div class="fixed inset-0 scanlines z-50 pointer-events-none"></div>
+
+    <header class="fixed top-0 left-0 right-0 z-40 bg-darkBg/90 backdrop-blur-md border-b border-neonPurple/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-full bg-neonPurple/20 border-2 border-neonBlue flex items-center justify-center neon-box group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-robot text-neonYellow text-xl"></i>
+                </div>
+                <span class="font-creepster text-2xl sm:text-3xl tracking-wider text-neonYellow neon-title">Bons Burguer</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#menu" class="text-sm font-semibold hover:text-neonBlue transition-colors">Menú</a>
+                <a href="#animatronicos" class="text-sm font-semibold hover:text-neonPurple transition-colors">Animatrónicos</a>
+                <a href="#arcade" class="text-sm font-semibold hover:text-neonYellow transition-colors">Zona Arcade</a>
+                <a href="#horarios" class="text-sm font-semibold hover:text-neonBlue transition-colors">Horarios</a>
+                <a href="#reservas" class="bg-neonPurple hover:bg-neonPurple/80 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-neonPurple/30 transition-all hover:scale-105">Reservar Mesa</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" aria-label="Abrir menú" class="md:hidden text-gray-300 hover:text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cardBg border-b border-gray-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#menu" class="block py-2 text-gray-300 hover:text-neonBlue">Menú</a>
+            <a href="#animatronicos" class="block py-2 text-gray-300 hover:text-neonPurple">Animatrónicos</a>
+            <a href="#arcade" class="block py-2 text-gray-300 hover:text-neonYellow">Zona Arcade</a>
+            <a href="#horarios" class="block py-2 text-gray-300 hover:text-neonBlue">Horarios</a>
+            <a href="#reservas" class="block text-center bg-neonPurple text-white py-3 rounded-xl font-bold mt-2 shadow-lg">Reservar Mesa</a>
+        </div>
+    </header>
+
+    <section class="relative min-h-screen flex items-center justify-center stage-lights pt-20 px-4 overflow-hidden">
+        <div class="absolute inset-0 confetti"></div>
+        
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 py-16">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center space-x-2 bg-neonPurple/10 border border-neonPurple/40 px-4 py-2 rounded-full">
+                    <span class="w-2.5 h-2.5 rounded-full bg-neonYellow animate-ping"></span>
+                    <span class="text-xs sm:text-sm font-arcade text-neonYellow">¡EL SHOW ESTÁ A PUNTO DE EMPEZAR!</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-none">
+                    ¡Donde la carne es jugosa y <span class="text-neonPurple neon-title font-creepster tracking-wider">nuestros amigos</span> cobran vida!
+                </h1>
+                
+                <p class="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0">
+                    Disfruta de las mejores hamburguesas de la ciudad mientras Bon the Bear y su banda interpretan sus grandes éxitos musicales bajo luces de neón parpadeantes.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#menu" class="w-full sm:w-auto bg-neonBlue hover:bg-neonBlue/80 text-darkBg font-extrabold px-8 py-4 rounded-xl shadow-lg shadow-neonBlue/30 transition-all hover:scale-105 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-burger"></i>
+                        <span>Ver Menú</span>
+                    </a>
+                    <a href="#reservas" class="w-full sm:w-auto border-2 border-neonYellow text-neonYellow hover:bg-neonYellow hover:text-darkBg font-bold px-8 py-4 rounded-xl transition-all hover:scale-105 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span>Reservar Mesa</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Interactive Card -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-md bg-cardBg border-2 border-neonPurple rounded-3xl p-6 neon-box shadow-2xl transform hover:rotate-1 transition-transform">
+                    <div class="absolute -top-4 right-6 bg-neonYellow text-darkBg font-arcade text-xs px-3 py-1.5 rounded-full uppercase font-bold tracking-wider">
+                        Estrella Principal
+                    </div>
+                    
+                    <div class="relative h-72 rounded-2xl overflow-hidden bg-gradient-to-b from-fuchsia-500/30 to-indigo-900 border border-gray-800 flex items-center justify-center group">
+                        <!-- Neon spotlight effect -->
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neonBlue/30 via-transparent to-transparent"></div>
+                        
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJ3IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjN2U1N2MyIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYjM5ZGRiIi8+PC9saW5lYXJHcmFkaWVudD4KPHJhZGlhbEdyYWRpZW50IGlkPSJzIiBjeD0iLjUiIGN5PSIwIiByPSIuOSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii42Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50Pgo8cGF0dGVybiBpZD0iYyIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iMzAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjZmZkNTRmIi8+PHJlY3QgeT0iMTUiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2ZmZDU0ZiIvPjwvcGF0dGVybj48L2RlZnM+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI3cpIi8+PGNpcmNsZSBjeD0iOTUiIGN5PSI2MCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iNTIiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMjg1IiBjeT0iMTA1IiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz48Y2lyY2xlIGN4PSIzMzAiIGN5PSIxNTAiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTUwIiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz4KPHBhdGggZD0iTTIwMCAwTDEwMCAyNDRIMzAwWiIgZmlsbD0idXJsKCNzKSIvPgo8cmVjdCB5PSIyNDQiIHdpZHRoPSI0MDAiIGhlaWdodD0iNTYiIGZpbGw9InVybCgjYykiLz48cmVjdCB5PSIyMzgiIHdpZHRoPSI0MDAiIGhlaWdodD0iOCIgZmlsbD0iIzZhMWI5YSIvPgo8cGF0aCBkPSJNMCAwSDcyUTM2IDEyMCA2MCAyNDRIMFoiIGZpbGw9IiNkMzJmMmYiLz48cGF0aCBkPSJNNDAwIDBIMzI4UTM2NCAxMjAgMzQwIDI0NEg0MDBaIiBmaWxsPSIjZDMyZjJmIi8+CjxwYXRoIGQ9Ik0wIDBINDAwVjI4UTM1MCA0NiAzMDAgMjhRMjUwIDQ2IDIwMCAyOFExNTAgNDYgMTAwIDI4UTUwIDQ2IDAgMjhaIiBmaWxsPSIjYjcxYzFjIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2ZmZWIzYiIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMTkwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIyMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjI3MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjM5MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+CjxwYXRoIGQ9Ik0xNTAgMjEwUTEwOCAyMzIgMTI2IDI2NiIgc3Ryb2tlPSIjOGQ1YTJiIiBzdHJva2Utd2lkdGg9IjIyIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTI1MCAyMTBRMjkyIDIwNiAyODIgMTcyIiBzdHJva2U9IiM4ZDVhMmIiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8Y2lyY2xlIGN4PSIyODIiIGN5PSIxNjAiIHI9IjExIiBmaWxsPSIjNjE2MTYxIi8+PHJlY3QgeD0iMjc5IiB5PSIxNjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjIyIiByeD0iMyIgZmlsbD0iIzMzMyIvPgo8cmVjdCB4PSIxNDUiIHk9IjE5MCIgd2lkdGg9IjExMCIgaGVpZ2h0PSI5NiIgcng9IjQwIiBmaWxsPSIjOGQ1YTJiIi8+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjI0NCIgcng9IjM0IiByeT0iMzgiIGZpbGw9IiNlOGM5YTAiLz4KPGNpcmNsZSBjeD0iMTQ4IiBjeT0iOTIiIHI9IjI0IiBmaWxsPSIjOGQ1YTJiIi8+PGNpcmNsZSBjeD0iMjUyIiBjeT0iOTIiIHI9IjI0IiBmaWxsPSIjOGQ1YTJiIi8+CjxjaXJjbGUgY3g9IjE0OCIgY3k9IjkyIiByPSIxMyIgZmlsbD0iI2U4YzlhMCIvPjxjaXJjbGUgY3g9IjI1MiIgY3k9IjkyIiByPSIxMyIgZmlsbD0iI2U4YzlhMCIvPgo8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNDAiIHI9IjY0IiBmaWxsPSIjOGQ1YTJiIi8+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjE2MiIgcng9IjM0IiByeT0iMjYiIGZpbGw9IiNlOGM5YTAiLz4KPGNpcmNsZSBjeD0iMTc2IiBjeT0iMTI2IiByPSIxMiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjE3NiIgY3k9IjEyNiIgcj0iNiIgZmlsbD0iIzFlODhlNSIvPjxjaXJjbGUgY3g9IjE3OCIgY3k9IjEyNCIgcj0iMiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjIyNCIgY3k9IjEyNiIgcj0iMTIiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMjQiIGN5PSIxMjYiIHI9IjYiIGZpbGw9IiMxZTg4ZTUiLz48Y2lyY2xlIGN4PSIyMjYiIGN5PSIxMjQiIHI9IjIiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSIxNTIiIHI9IjgiIGZpbGw9IiNmZjhhODAiIG9wYWNpdHk9Ii41NSIvPjxjaXJjbGUgY3g9IjI0NCIgY3k9IjE1MiIgcj0iOCIgZmlsbD0iI2ZmOGE4MCIgb3BhY2l0eT0iLjU1Ii8+CjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIxNTIiIHJ4PSIxMSIgcnk9IjciIGZpbGw9IiMzZTI3MjMiLz4KPHBhdGggZD0iTTE4MCAxNjhRMjAwIDE5MCAyMjAgMTY4WiIgZmlsbD0iI2I3MWMxYyIgc3Ryb2tlPSIjM2UyNzIzIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTIwMCAxOTZMMTcwIDE4MlYyMTBaIE0yMDAgMTk2TDIzMCAxODJWMjEwWiIgZmlsbD0iI2U1MzkzNSIvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5NiIgcj0iNiIgZmlsbD0iI2M2MjgyOCIvPjwvc3ZnPg==" alt="Bon the Bear, oso animatrónico amistoso sobre el escenario" class="absolute inset-0 w-full h-full object-cover opacity-100" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="text-center z-10 space-y-3 self-end pb-4 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
+                            <h3 class="font-creepster text-3xl text-neonYellow tracking-wide">Bon The Bear</h3>
+                            <p class="text-xs font-arcade text-neonBlue">ESTADO: ACTIVO & CANTANDO</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 space-y-3">
+                        <div class="flex justify-between text-sm text-gray-400">
+                            <span>Nivel de Diversión:</span>
+                            <span class="text-neonYellow font-bold">100% Máximo</span>
+                        </div>
+                        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-neonBlue to-neonPurple h-full w-[95%] animate-pulse"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 text-center italic pt-2">"¡Recuerda sonreír ante las cámaras!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="animatronicos" class="py-24 bg-darkBg relative border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-neonPurple font-arcade text-xs tracking-widest uppercase">El Escenario Principal</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Conoce a Nuestros <span class="text-neonYellow font-creepster">Animatrónicos</span></h2>
+                <p class="text-gray-400">Nuestros artistas robóticos de última generación te harán pasar una noche inolvidable. ¡Acércate a saludarlos con precaución!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Bon Card -->
+                <div class="bg-cardBg border border-gray-800 hover:border-neonPurple rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 group shadow-xl">
+                    <div class="h-60 rounded-2xl bg-purple-950/20 border border-gray-800 flex items-center justify-center relative overflow-hidden mb-6">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJ3IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjN2U1N2MyIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYjM5ZGRiIi8+PC9saW5lYXJHcmFkaWVudD4KPHJhZGlhbEdyYWRpZW50IGlkPSJzIiBjeD0iLjUiIGN5PSIwIiByPSIuOSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii42Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50Pgo8cGF0dGVybiBpZD0iYyIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iMzAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjZmZkNTRmIi8+PHJlY3QgeT0iMTUiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2ZmZDU0ZiIvPjwvcGF0dGVybj48L2RlZnM+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI3cpIi8+PGNpcmNsZSBjeD0iOTUiIGN5PSI2MCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iNTIiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMjg1IiBjeT0iMTA1IiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz48Y2lyY2xlIGN4PSIzMzAiIGN5PSIxNTAiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTUwIiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz4KPHBhdGggZD0iTTIwMCAwTDEwMCAyNDRIMzAwWiIgZmlsbD0idXJsKCNzKSIvPgo8cmVjdCB5PSIyNDQiIHdpZHRoPSI0MDAiIGhlaWdodD0iNTYiIGZpbGw9InVybCgjYykiLz48cmVjdCB5PSIyMzgiIHdpZHRoPSI0MDAiIGhlaWdodD0iOCIgZmlsbD0iIzZhMWI5YSIvPgo8cGF0aCBkPSJNMCAwSDcyUTM2IDEyMCA2MCAyNDRIMFoiIGZpbGw9IiNkMzJmMmYiLz48cGF0aCBkPSJNNDAwIDBIMzI4UTM2NCAxMjAgMzQwIDI0NEg0MDBaIiBmaWxsPSIjZDMyZjJmIi8+CjxwYXRoIGQ9Ik0wIDBINDAwVjI4UTM1MCA0NiAzMDAgMjhRMjUwIDQ2IDIwMCAyOFExNTAgNDYgMTAwIDI4UTUwIDQ2IDAgMjhaIiBmaWxsPSIjYjcxYzFjIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2ZmZWIzYiIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMTkwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIyMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjI3MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjM5MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+CjxwYXRoIGQ9Ik0xNTAgMjEwUTEwOCAyMzIgMTI2IDI2NiIgc3Ryb2tlPSIjOGQ1YTJiIiBzdHJva2Utd2lkdGg9IjIyIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTI1MCAyMTBRMjkyIDIwNiAyODIgMTcyIiBzdHJva2U9IiM4ZDVhMmIiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8Y2lyY2xlIGN4PSIyODIiIGN5PSIxNjAiIHI9IjExIiBmaWxsPSIjNjE2MTYxIi8+PHJlY3QgeD0iMjc5IiB5PSIxNjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjIyIiByeD0iMyIgZmlsbD0iIzMzMyIvPgo8cmVjdCB4PSIxNDUiIHk9IjE5MCIgd2lkdGg9IjExMCIgaGVpZ2h0PSI5NiIgcng9IjQwIiBmaWxsPSIjOGQ1YTJiIi8+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjI0NCIgcng9IjM0IiByeT0iMzgiIGZpbGw9IiNlOGM5YTAiLz4KPGNpcmNsZSBjeD0iMTQ4IiBjeT0iOTIiIHI9IjI0IiBmaWxsPSIjOGQ1YTJiIi8+PGNpcmNsZSBjeD0iMjUyIiBjeT0iOTIiIHI9IjI0IiBmaWxsPSIjOGQ1YTJiIi8+CjxjaXJjbGUgY3g9IjE0OCIgY3k9IjkyIiByPSIxMyIgZmlsbD0iI2U4YzlhMCIvPjxjaXJjbGUgY3g9IjI1MiIgY3k9IjkyIiByPSIxMyIgZmlsbD0iI2U4YzlhMCIvPgo8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNDAiIHI9IjY0IiBmaWxsPSIjOGQ1YTJiIi8+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjE2MiIgcng9IjM0IiByeT0iMjYiIGZpbGw9IiNlOGM5YTAiLz4KPGNpcmNsZSBjeD0iMTc2IiBjeT0iMTI2IiByPSIxMiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjE3NiIgY3k9IjEyNiIgcj0iNiIgZmlsbD0iIzFlODhlNSIvPjxjaXJjbGUgY3g9IjE3OCIgY3k9IjEyNCIgcj0iMiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjIyNCIgY3k9IjEyNiIgcj0iMTIiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMjQiIGN5PSIxMjYiIHI9IjYiIGZpbGw9IiMxZTg4ZTUiLz48Y2lyY2xlIGN4PSIyMjYiIGN5PSIxMjQiIHI9IjIiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSIxNTIiIHI9IjgiIGZpbGw9IiNmZjhhODAiIG9wYWNpdHk9Ii41NSIvPjxjaXJjbGUgY3g9IjI0NCIgY3k9IjE1MiIgcj0iOCIgZmlsbD0iI2ZmOGE4MCIgb3BhY2l0eT0iLjU1Ii8+CjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIxNTIiIHJ4PSIxMSIgcnk9IjciIGZpbGw9IiMzZTI3MjMiLz4KPHBhdGggZD0iTTE4MCAxNjhRMjAwIDE5MCAyMjAgMTY4WiIgZmlsbD0iI2I3MWMxYyIgc3Ryb2tlPSIjM2UyNzIzIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTIwMCAxOTZMMTcwIDE4MlYyMTBaIE0yMDAgMTk2TDIzMCAxODJWMjEwWiIgZmlsbD0iI2U1MzkzNSIvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5NiIgcj0iNiIgZmlsbD0iI2M2MjgyOCIvPjwvc3ZnPg==" alt="Bon the Bear, oso animatrónico amistoso sobre el escenario" class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                        <span id="status-1" class="absolute top-4 left-4 bg-green-500/20 border border-green-500 text-green-400 text-xs font-arcade px-2.5 py-1 rounded-full">
+                            ● ACTIVO
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center justify-between">
+                        <span>Bon the Bear</span>
+                        <button onclick="toggleStatus('status-1', this)" class="text-xs text-gray-400 hover:text-neonYellow bg-gray-800 px-2 py-1 rounded">Cambiar Estado</button>
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4">El líder indiscutible del restaurante. Su voz ronca y su guitarra animada animan todas las fiestas de cumpleaños.</p>
+                    <div class="flex items-center space-x-2 text-xs text-neonBlue font-arcade">
+                        <i class="fa-solid fa-music"></i>
+                        <span>Vocalista Principal</span>
+                    </div>
+                </div>
+
+                <!-- Chica Card -->
+                <div class="bg-cardBg border border-gray-800 hover:border-neonBlue rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 group shadow-xl">
+                    <div class="h-60 rounded-2xl bg-cyan-950/20 border border-gray-800 flex items-center justify-center relative overflow-hidden mb-6">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJ3IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMjZhNjlhIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjODBjYmM0Ii8+PC9saW5lYXJHcmFkaWVudD4KPHJhZGlhbEdyYWRpZW50IGlkPSJzIiBjeD0iLjUiIGN5PSIwIiByPSIuOSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii42Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50Pgo8cGF0dGVybiBpZD0iYyIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iMzAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjZmZkNTRmIi8+PHJlY3QgeT0iMTUiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2ZmZDU0ZiIvPjwvcGF0dGVybj48L2RlZnM+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI3cpIi8+PGNpcmNsZSBjeD0iOTUiIGN5PSI2MCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iNTIiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMjg1IiBjeT0iMTA1IiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz48Y2lyY2xlIGN4PSIzMzAiIGN5PSIxNTAiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTUwIiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz4KPHBhdGggZD0iTTIwMCAwTDEwMCAyNDRIMzAwWiIgZmlsbD0idXJsKCNzKSIvPgo8cmVjdCB5PSIyNDQiIHdpZHRoPSI0MDAiIGhlaWdodD0iNTYiIGZpbGw9InVybCgjYykiLz48cmVjdCB5PSIyMzgiIHdpZHRoPSI0MDAiIGhlaWdodD0iOCIgZmlsbD0iIzZhMWI5YSIvPgo8cGF0aCBkPSJNMCAwSDcyUTM2IDEyMCA2MCAyNDRIMFoiIGZpbGw9IiNkMzJmMmYiLz48cGF0aCBkPSJNNDAwIDBIMzI4UTM2NCAxMjAgMzQwIDI0NEg0MDBaIiBmaWxsPSIjZDMyZjJmIi8+CjxwYXRoIGQ9Ik0wIDBINDAwVjI4UTM1MCA0NiAzMDAgMjhRMjUwIDQ2IDIwMCAyOFExNTAgNDYgMTAwIDI4UTUwIDQ2IDAgMjhaIiBmaWxsPSIjYjcxYzFjIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2ZmZWIzYiIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMTkwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIyMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjI3MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjM5MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+CjxwYXRoIGQ9Ik0xNTAgMjE0UTExMiAyMjYgMTIwIDI1MiIgc3Ryb2tlPSIjZmZkNjAwIiBzdHJva2Utd2lkdGg9IjIwIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTI1MCAyMTRRMjg4IDIyNiAyODAgMjUyIiBzdHJva2U9IiNmZmQ2MDAiIHN0cm9rZS13aWR0aD0iMjAiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTE4IDIzOEwxNTAgMjE0TTI4MiAyMzhMMjUwIDIxNCIgc3Ryb2tlPSIjOGQ2ZTYzIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cmVjdCB4PSIxNDUiIHk9IjE5MCIgd2lkdGg9IjExMCIgaGVpZ2h0PSI5NiIgcng9IjM4IiBmaWxsPSIjZmZkNjAwIi8+CjxwYXRoIGQ9Ik0xNjUgMTk2SDIzNVYyNjJRMjAwIDI3NiAxNjUgMjYyWiIgZmlsbD0iI2ZmZiIvPjxwb2x5Z29uIHBvaW50cz0iMjAwLDIxNiAyMDUsMjI5IDIxOSwyMjkgMjA4LDIzNyAyMTIsMjUwIDIwMCwyNDIgMTg4LDI1MCAxOTIsMjM3IDE4MSwyMjkgMTk1LDIyOSIgZmlsbD0iI2ZmNzA0MyIvPgo8Y2lyY2xlIGN4PSIxODUiIGN5PSI3NiIgcj0iMTAiIGZpbGw9IiNlNTM5MzUiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSI2OCIgcj0iMTIiIGZpbGw9IiNlNTM5MzUiLz48Y2lyY2xlIGN4PSIyMTUiIGN5PSI3NiIgcj0iMTAiIGZpbGw9IiNlNTM5MzUiLz4KPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTQwIiByPSI2MiIgZmlsbD0iI2ZmZDYwMCIvPgo8Y2lyY2xlIGN4PSIxNzIiIGN5PSIxMjQiIHI9IjEyIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMTcyIiBjeT0iMTI0IiByPSI2IiBmaWxsPSIjNmExYjlhIi8+PGNpcmNsZSBjeD0iMTc0IiBjeT0iMTIyIiByPSIyIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMjI4IiBjeT0iMTI0IiByPSIxMiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjIyOCIgY3k9IjEyNCIgcj0iNiIgZmlsbD0iIzZhMWI5YSIvPjxjaXJjbGUgY3g9IjIzMCIgY3k9IjEyMiIgcj0iMiIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE1MiIgcj0iOCIgZmlsbD0iI2ZmOGE4MCIgb3BhY2l0eT0iLjU1Ii8+PGNpcmNsZSBjeD0iMjUwIiBjeT0iMTUyIiByPSI4IiBmaWxsPSIjZmY4YTgwIiBvcGFjaXR5PSIuNTUiLz4KPHBhdGggZD0iTTE3NiAxNDhRMjAwIDEzNCAyMjQgMTQ4UTIxNCAxNzggMjAwIDE4MFExODYgMTc4IDE3NiAxNDhaIiBmaWxsPSIjZmY5ODAwIi8+PHBhdGggZD0iTTE4NiAxNjBRMjAwIDE2OCAyMTQgMTYwIiBzdHJva2U9IiNlNjUxMDAiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8ZWxsaXBzZSBjeD0iMjAwIiBjeT0iMjYyIiByeD0iNTQiIHJ5PSIxMyIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xNDYgMjYyVjI4OFEyMDAgMzA0IDI1NCAyODhWMjYyUTIwMCAyNzYgMTQ2IDI2MloiIGZpbGw9IiNlNTM5MzUiLz48L3N2Zz4=" alt="Chica Chicken, gallina animatrónica baterista sobre el escenario" class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                        <span id="status-2" class="absolute top-4 left-4 bg-green-500/20 border border-green-500 text-green-400 text-xs font-arcade px-2.5 py-1 rounded-full">
+                            ● ACTIVO
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center justify-between">
+                        <span>Chica Chicken</span>
+                        <button onclick="toggleStatus('status-2', this)" class="text-xs text-gray-400 hover:text-neonYellow bg-gray-800 px-2 py-1 rounded">Cambiar Estado</button>
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4">La baterista más enérgica del local. Amante absoluta de los nuggets de pollo crujientes y los solos de batería a todo ritmo.</p>
+                    <div class="flex items-center space-x-2 text-xs text-neonYellow font-arcade">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Baterista Rockera</span>
+                    </div>
+                </div>
+
+                <!-- Foxy Card -->
+                <div class="bg-cardBg border border-gray-800 hover:border-neonYellow rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 group shadow-xl">
+                    <div class="h-60 rounded-2xl bg-red-950/20 border border-gray-800 flex items-center justify-center relative overflow-hidden mb-6">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJ3IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMWU4OGU1Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOTBjYWY5Ii8+PC9saW5lYXJHcmFkaWVudD4KPHJhZGlhbEdyYWRpZW50IGlkPSJzIiBjeD0iLjUiIGN5PSIwIiByPSIuOSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii42Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50Pgo8cGF0dGVybiBpZD0iYyIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iMzAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSIyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjE1IiBmaWxsPSIjZmZkNTRmIi8+PHJlY3QgeT0iMTUiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNSIgZmlsbD0iI2ZmZDU0ZiIvPjwvcGF0dGVybj48L2RlZnM+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSJ1cmwoI3cpIi8+PGNpcmNsZSBjeD0iOTUiIGN5PSI2MCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iNTIiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjZmZmNTlkIi8+PGNpcmNsZSBjeD0iMjg1IiBjeT0iMTA1IiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz48Y2lyY2xlIGN4PSIzMzAiIGN5PSIxNTAiIHI9IjIuNSIgZmlsbD0iI2ZmZjU5ZCIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTUwIiByPSIyLjUiIGZpbGw9IiNmZmY1OWQiLz4KPHBhdGggZD0iTTIwMCAwTDEwMCAyNDRIMzAwWiIgZmlsbD0idXJsKCNzKSIvPgo8cmVjdCB5PSIyNDQiIHdpZHRoPSI0MDAiIGhlaWdodD0iNTYiIGZpbGw9InVybCgjYykiLz48cmVjdCB5PSIyMzgiIHdpZHRoPSI0MDAiIGhlaWdodD0iOCIgZmlsbD0iIzZhMWI5YSIvPgo8cGF0aCBkPSJNMCAwSDcyUTM2IDEyMCA2MCAyNDRIMFoiIGZpbGw9IiNkMzJmMmYiLz48cGF0aCBkPSJNNDAwIDBIMzI4UTM2NCAxMjAgMzQwIDI0NEg0MDBaIiBmaWxsPSIjZDMyZjJmIi8+CjxwYXRoIGQ9Ik0wIDBINDAwVjI4UTM1MCA0NiAzMDAgMjhRMjUwIDQ2IDIwMCAyOFExNTAgNDYgMTAwIDI4UTUwIDQ2IDAgMjhaIiBmaWxsPSIjYjcxYzFjIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2ZmZWIzYiIvPjxjaXJjbGUgY3g9IjcwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIxMTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMTkwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIyMzAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjI3MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iMTQiIHI9IjQiIGZpbGw9IiM0ZmMzZjciLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNCIgcj0iNCIgZmlsbD0iI2Y0OGZiMSIvPjxjaXJjbGUgY3g9IjM5MCIgY3k9IjE0IiByPSI0IiBmaWxsPSIjZmZlYjNiIi8+CjxwYXRoIGQ9Ik0xNTAgMjEyUTExMCAyMTQgMTEyIDE3NiIgc3Ryb2tlPSIjZjQ1MTFlIiBzdHJva2Utd2lkdGg9IjIyIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTI1MCAyMTJRMjkyIDIyMCAyODggMjUwIiBzdHJva2U9IiNmNDUxMWUiIHN0cm9rZS13aWR0aD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMjg4IDI1MlEyOTIgMjcyIDI3NCAyNzAiIHN0cm9rZT0iI2NmZDhkYyIgc3Ryb2tlLXdpZHRoPSI3IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHJlY3QgeD0iMTQ1IiB5PSIxOTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iOTYiIHJ4PSI0MCIgZmlsbD0iI2Y0NTExZSIvPjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIyNDYiIHJ4PSIzMiIgcnk9IjM4IiBmaWxsPSIjZmZmM2UwIi8+Cjxwb2x5Z29uIHBvaW50cz0iMTM4LDEyNCAxNDYsNTYgMTg4LDk4IiBmaWxsPSIjZjQ1MTFlIi8+PHBvbHlnb24gcG9pbnRzPSIyNjIsMTI0IDI1NCw1NiAyMTIsOTgiIGZpbGw9IiNmNDUxMWUiLz4KPHBvbHlnb24gcG9pbnRzPSIxNTAsMTA2IDE1Miw3OCAxNzIsOTgiIGZpbGw9IiM0ZTM0MmUiLz48cG9seWdvbiBwb2ludHM9IjI1MCwxMDYgMjQ4LDc4IDIyOCw5OCIgZmlsbD0iIzRlMzQyZSIvPgo8ZWxsaXBzZSBjeD0iMjAwIiBjeT0iMTQ0IiByeD0iNjAiIHJ5PSI1NiIgZmlsbD0iI2Y0NTExZSIvPjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIxNjgiIHJ4PSIzNCIgcnk9IjI1IiBmaWxsPSIjZmZmM2UwIi8+CjxjaXJjbGUgY3g9IjE3NCIgY3k9IjEzNCIgcj0iMTIiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNzQiIGN5PSIxMzQiIHI9IjYiIGZpbGw9IiM0M2EwNDciLz48Y2lyY2xlIGN4PSIxNzYiIGN5PSIxMzIiIHI9IjIiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMjYiIGN5PSIxMzQiIHI9IjE0IiBmaWxsPSIjMjEyMTIxIi8+PHBhdGggZD0iTTIxMiAxMjZMMjU2IDExMCIgc3Ryb2tlPSIjMjEyMTIxIiBzdHJva2Utd2lkdGg9IjMiLz4KPHBhdGggZD0iTTE0MCAxMThRMjAwIDc4IDI2MCAxMThWMTI4UTIwMCA5OCAxNDAgMTI4WiIgZmlsbD0iIzE1NjVjMCIvPgo8Y2lyY2xlIGN4PSIxNzAiIGN5PSIxMDYiIHI9IjMiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMDAiIHI9IjMiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMzAiIGN5PSIxMDYiIHI9IjMiIGZpbGw9IiNmZmYiLz4KPGNpcmNsZSBjeD0iMTUyIiBjeT0iMTYwIiByPSI4IiBmaWxsPSIjZmY4YTgwIiBvcGFjaXR5PSIuNTUiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTQiIHI9IjciIGZpbGw9IiMzZTI3MjMiLz4KPHBhdGggZD0iTTE4MiAxNzZRMjAwIDE5MiAyMTggMTc2IiBzdHJva2U9IiMzZTI3MjMiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHJlY3QgeD0iMTk1IiB5PSIxNzgiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHJ4PSIyIiBmaWxsPSIjZmZmIi8+PC9zdmc+" alt="Foxy Fox, zorro pirata animatrónico sobre el escenario" class="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                        <span id="status-3" class="absolute top-4 left-4 bg-yellow-500/20 border border-yellow-500 text-yellow-400 text-xs font-arcade px-2.5 py-1 rounded-full">
+                            ⚠ EN MANTENIMIENTO
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 flex items-center justify-between">
+                        <span>Foxy Fox</span>
+                        <button onclick="toggleStatus('status-3', this)" class="text-xs text-gray-400 hover:text-neonYellow bg-gray-800 px-2 py-1 rounded">Cambiar Estado</button>
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4">Oculto en su rincón pirata junto a las máquinas recreativas. ¡Pásate a saludarlo y a jugar a las recreativas!</p>
+                    <div class="flex items-center space-x-2 text-xs text-red-400 font-arcade">
+                        <i class="fa-solid fa-compass"></i>
+                        <span>Pirata de Rincón</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-24 bg-cardBg relative border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-neonBlue font-arcade text-xs tracking-widest uppercase">Cocina Deliciosa y Divertida</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Menú <span class="text-neonBlue neon-title font-creepster">Animatrónico</span></h2>
+                <p class="text-gray-400">Preparadas con carne 100% seleccionada y un toque secreto que te dejará con la boca abierta.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Item 1 -->
+                <div class="bg-darkBg border border-gray-800 rounded-2xl p-5 hover:border-neonPurple transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="h-40 rounded-xl bg-purple-950/20 flex items-center justify-center mb-4 relative overflow-hidden border border-gray-800">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNhYjQ3YmMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmNDhmYjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI0MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzUwIiB5PSI0MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iNjAiIHk9IjE5MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzQwIiB5PSIyMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii4zNSIvPjxyZWN0IHg9IjMyMCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48cmVjdCB4PSI0MCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDAgMTk2KSBzY2FsZSgwLjg4KSB0cmFuc2xhdGUoLTIwMCAtMTk2KSI+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjIwMCIgcng9IjEyMCIgcnk9IjEwIiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIuMjUiLz48cmVjdCB4PSIxMTAiIHk9IjE3NCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZDk4YzJiIi8+PHJlY3QgeD0iMTA0IiB5PSIxNTAiIHdpZHRoPSIxOTIiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iIzZkNGM0MSIvPjxwYXRoIGQ9Ik0xMDggMTM4SDI5MlYxNDZIMjYyTDI1NCAxNjBMMjQ2IDE0NkgxMDhaIiBmaWxsPSIjZmZjYTI4Ii8+PHJlY3QgeD0iMTA0IiB5PSIxMTQiIHdpZHRoPSIxOTIiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iIzZkNGM0MSIvPjxwYXRoIGQ9Ik0xMDggMTAySDI5MlYxMTBIMjYyTDI1NCAxMjRMMjQ2IDExMEgxMDhaIiBmaWxsPSIjZmZjYTI4Ii8+PHBhdGggZD0iTTEwMiAxMDBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCAiIHN0cm9rZT0iIzdjYjM0MiIgc3Ryb2tlLXdpZHRoPSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHJlY3QgeD0iMTIwIiB5PSI4OCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxMCIgcng9IjUiIGZpbGw9IiNlNTM5MzUiLz48cGF0aCBkPSJNMTA4IDkyUTEwOCAyNiAyMDAgMjZRMjkyIDI2IDI5MiA5MloiIGZpbGw9IiNlOGEzM2QiLz48ZWxsaXBzZSBjeD0iMTYwIiBjeT0iNTgiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoLTIwIDE2MCA1OCkiLz48ZWxsaXBzZSBjeD0iMjAwIiBjeT0iNDYiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoMTAgMjAwIDQ2KSIvPjxlbGxpcHNlIGN4PSIyNDAiIGN5PSI1OCIgcng9IjYiIHJ5PSIzIiBmaWxsPSIjZmZmM2UwIiB0cmFuc2Zvcm09InJvdGF0ZSgyNSAyNDAgNTgpIi8+PGVsbGlwc2UgY3g9IjE4MCIgY3k9IjcwIiByeD0iNiIgcnk9IjMiIGZpbGw9IiNmZmYzZTAiIHRyYW5zZm9ybT0icm90YXRlKDE1IDE4MCA3MCkiLz48ZWxsaXBzZSBjeD0iMjIyIiBjeT0iNjgiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1IDIyMiA2OCkiLz48L2c+PC9zdmc+" alt="Hamburguesa doble con queso" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                            <div class="absolute inset-0 bg-black/15"></div>
+                            <span class="absolute top-2 right-2 bg-neonPurple text-white text-xs px-2 py-0.5 rounded font-bold">12.99 €</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">La Hamburguesa Animatrónica</h3>
+                        <p class="text-gray-400 text-xs mb-4">Doble carne de vacuno, triple cheddar fundido, tocino crujiente y salsa secreta de la casa con un toque ahumado.</p>
+                    </div>
+                    <button onclick="orderItem('La Hamburguesa Animatrónica')" class="w-full bg-neonPurple/20 hover:bg-neonPurple text-neonPurple hover:text-white border border-neonPurple text-xs font-bold py-2.5 rounded-xl transition-colors">
+                        Pedir Ahora
+                    </button>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-darkBg border border-gray-800 rounded-2xl p-5 hover:border-neonBlue transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="h-40 rounded-xl bg-cyan-950/20 flex items-center justify-center mb-4 relative overflow-hidden border border-gray-800">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyNmM2ZGEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4MGRlZWEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI0MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzUwIiB5PSI0MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iNjAiIHk9IjE5MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzQwIiB5PSIyMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii4zNSIvPjxyZWN0IHg9IjMyMCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48cmVjdCB4PSI0MCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDAgMTk2KSBzY2FsZSgwLjgzKSB0cmFuc2xhdGUoLTIwMCAtMTk2KSI+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjIwMCIgcng9IjEyMCIgcnk9IjEwIiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIuMjUiLz48cmVjdCB4PSIxMTAiIHk9IjE3NCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZDk4YzJiIi8+PHJlY3QgeD0iMTA0IiB5PSIxNTAiIHdpZHRoPSIxOTIiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iIzZkNGM0MSIvPjxwYXRoIGQ9Ik0xMDggMTM4SDI5MlYxNDZIMjYyTDI1NCAxNjBMMjQ2IDE0NkgxMDhaIiBmaWxsPSIjZmZjYTI4Ii8+PHJlY3QgeD0iMTA0IiB5PSIxMTQiIHdpZHRoPSIxOTIiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iIzZkNGM0MSIvPjxwYXRoIGQ9Ik0xMDggMTAySDI5MlYxMTBIMjYyTDI1NCAxMjRMMjQ2IDExMEgxMDhaIiBmaWxsPSIjZmZjYTI4Ii8+PGVsbGlwc2UgY3g9IjIwMCIgY3k9Ijk2IiByeD0iODQiIHJ5PSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmNWRlYjMiIHN0cm9rZS13aWR0aD0iNyIvPjxwYXRoIGQ9Ik0xMDIgOTBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCAiIHN0cm9rZT0iIzdjYjM0MiIgc3Ryb2tlLXdpZHRoPSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHJlY3QgeD0iMTIwIiB5PSI3OCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxMCIgcng9IjUiIGZpbGw9IiNlNTM5MzUiLz48cGF0aCBkPSJNMTA4IDgyUTEwOCAxNiAyMDAgMTZRMjkyIDE2IDI5MiA4MloiIGZpbGw9IiNlOGEzM2QiLz48ZWxsaXBzZSBjeD0iMTYwIiBjeT0iNDgiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoLTIwIDE2MCA0OCkiLz48ZWxsaXBzZSBjeD0iMjAwIiBjeT0iMzYiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoMTAgMjAwIDM2KSIvPjxlbGxpcHNlIGN4PSIyNDAiIGN5PSI0OCIgcng9IjYiIHJ5PSIzIiBmaWxsPSIjZmZmM2UwIiB0cmFuc2Zvcm09InJvdGF0ZSgyNSAyNDAgNDgpIi8+PGVsbGlwc2UgY3g9IjE4MCIgY3k9IjYwIiByeD0iNiIgcnk9IjMiIGZpbGw9IiNmZmYzZTAiIHRyYW5zZm9ybT0icm90YXRlKDE1IDE4MCA2MCkiLz48ZWxsaXBzZSBjeD0iMjIyIiBjeT0iNTgiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1IDIyMiA1OCkiLz48L2c+PC9zdmc+" alt="Hamburguesa con queso fundido" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                            <div class="absolute inset-0 bg-black/15"></div>
+                            <span class="absolute top-2 right-2 bg-neonBlue text-darkBg text-xs px-2 py-0.5 rounded font-extrabold">9.99 €</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">Doble Queso Neón</h3>
+                        <p class="text-gray-400 text-xs mb-4">Queso gouda y cheddar que brillan con sabor, cebolla caramelizada, pepinillos crujientes y pan brioche artesanal.</p>
+                    </div>
+                    <button onclick="orderItem('Doble Queso Neón')" class="w-full bg-neonBlue/20 hover:bg-neonBlue text-neonBlue hover:text-darkBg border border-neonBlue text-xs font-bold py-2.5 rounded-xl transition-colors">
+                        Pedir Ahora
+                    </button>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-darkBg border border-gray-800 rounded-2xl p-5 hover:border-neonYellow transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="h-40 rounded-xl bg-yellow-950/20 flex items-center justify-center mb-4 relative overflow-hidden border border-gray-800">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZGQ4MzUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZjhhNjUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI0MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzUwIiB5PSI0MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iNjAiIHk9IjE5MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzQwIiB5PSIyMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii4zNSIvPjxyZWN0IHg9IjMyMCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48cmVjdCB4PSI0MCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDAgMTk2KSBzY2FsZSgwLjcwKSB0cmFuc2xhdGUoLTIwMCAtMTk2KSI+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjIwMCIgcng9IjEyMCIgcnk9IjEwIiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIuMjUiLz48cmVjdCB4PSIxMTAiIHk9IjE3NCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjZDk4YzJiIi8+PHJlY3QgeD0iMTA0IiB5PSIxNTAiIHdpZHRoPSIxOTIiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iIzZkNGM0MSIvPjxwYXRoIGQ9Ik0xMDggMTM4SDI5MlYxNDZIMjYyTDI1NCAxNjBMMjQ2IDE0NkgxMDhaIiBmaWxsPSIjZmZjYTI4Ii8+PHBhdGggZD0iTTEwNCAxMzRxMTIgLTEyIDI0IDAgcTEyIC0xMiAyNCAwIHExMiAtMTIgMjQgMCBxMTIgLTEyIDI0IDAgcTEyIC0xMiAyNCAwIHExMiAtMTIgMjQgMCBxMTIgLTEyIDI0IDAgcTEyIC0xMiAyNCAwICIgc3Ryb2tlPSIjZTUzOTM1IiBzdHJva2Utd2lkdGg9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxyZWN0IHg9IjEwNCIgeT0iMTA2IiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiM2ZDRjNDEiLz48cGF0aCBkPSJNMTA4IDk0SDI5MlYxMDJIMjYyTDI1NCAxMTZMMjQ2IDEwMkgxMDhaIiBmaWxsPSIjZmZjYTI4Ii8+PHJlY3QgeD0iMTA0IiB5PSI3MCIgd2lkdGg9IjE5MiIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjNmQ0YzQxIi8+PHBhdGggZD0iTTEwOCA1OEgyOTJWNjZIMjYyTDI1NCA4MEwyNDYgNjZIMTA4WiIgZmlsbD0iI2ZmY2EyOCIvPjxwYXRoIGQ9Ik0xMDIgNTZxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCBxMTIgMTQgMjQgMCAiIHN0cm9rZT0iIzdjYjM0MiIgc3Ryb2tlLXdpZHRoPSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHJlY3QgeD0iMTIwIiB5PSI0NCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxMCIgcng9IjUiIGZpbGw9IiNlNTM5MzUiLz48cGF0aCBkPSJNMTA4IDQ4UTEwOCAtMTggMjAwIC0xOFEyOTIgLTE4IDI5MiA0OFoiIGZpbGw9IiNlOGEzM2QiLz48ZWxsaXBzZSBjeD0iMTYwIiBjeT0iMTQiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoLTIwIDE2MCAxNCkiLz48ZWxsaXBzZSBjeD0iMjAwIiBjeT0iMiIgcng9IjYiIHJ5PSIzIiBmaWxsPSIjZmZmM2UwIiB0cmFuc2Zvcm09InJvdGF0ZSgxMCAyMDAgMikiLz48ZWxsaXBzZSBjeD0iMjQwIiBjeT0iMTQiIHJ4PSI2IiByeT0iMyIgZmlsbD0iI2ZmZjNlMCIgdHJhbnNmb3JtPSJyb3RhdGUoMjUgMjQwIDE0KSIvPjxlbGxpcHNlIGN4PSIxODAiIGN5PSIyNiIgcng9IjYiIHJ5PSIzIiBmaWxsPSIjZmZmM2UwIiB0cmFuc2Zvcm09InJvdGF0ZSgxNSAxODAgMjYpIi8+PGVsbGlwc2UgY3g9IjIyMiIgY3k9IjI0IiByeD0iNiIgcnk9IjMiIGZpbGw9IiNmZmYzZTAiIHRyYW5zZm9ybT0icm90YXRlKC0xNSAyMjIgMjQpIi8+PC9nPjwvc3ZnPg==" alt="Hamburguesa especial de la casa" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                            <div class="absolute inset-0 bg-black/15"></div>
+                            <span class="absolute top-2 right-2 bg-neonYellow text-darkBg text-xs px-2 py-0.5 rounded font-extrabold">14.50 €</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">Mega Burger Campeón</h3>
+                        <p class="text-gray-400 text-xs mb-4">Para grandes apetitos: 3 carnes, pulled pork picante, aros de cebolla rebozados y salsa barbacoa ahumada.</p>
+                    </div>
+                    <button onclick="orderItem('Mega Burger Campeón')" class="w-full bg-neonYellow/20 hover:bg-neonYellow text-neonYellow hover:text-darkBg border border-neonYellow text-xs font-bold py-2.5 rounded-xl transition-colors">
+                        Pedir Ahora
+                    </button>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="bg-darkBg border border-gray-800 rounded-2xl p-5 hover:border-red-500 transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="h-40 rounded-xl bg-red-950/20 flex items-center justify-center mb-4 relative overflow-hidden border border-gray-800">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZjcwNDMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmNhMjgiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI0MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzUwIiB5PSI0MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iNjAiIHk9IjE5MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzQwIiB5PSIyMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii4zNSIvPjxyZWN0IHg9IjMyMCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48cmVjdCB4PSI0MCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48ZWxsaXBzZSBjeD0iMTcwIiBjeT0iMTc4IiByeD0iMTMwIiByeT0iMzAiIGZpbGw9IiNmZmYiLz48ZWxsaXBzZSBjeD0iMTcwIiBjeT0iMTcyIiByeD0iMTA4IiByeT0iMjIiIGZpbGw9IiNlY2VmZjEiLz48cmVjdCB4PSI3MCIgeT0iMTEwIiB3aWR0aD0iNjQiIGhlaWdodD0iNDgiIHJ4PSIyMCIgZmlsbD0iI2Q5OTIyZSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyIDEwMiAxMzQpIi8+PGNpcmNsZSBjeD0iOTIiIGN5PSIxMjYiIHI9IjQiIGZpbGw9IiNmMGI0NWEiLz48Y2lyY2xlIGN4PSIxMTIiIGN5PSIxNDAiIHI9IjMiIGZpbGw9IiNmMGI0NWEiLz48cmVjdCB4PSIxNDAiIHk9IjkwIiB3aWR0aD0iNjQiIGhlaWdodD0iNDgiIHJ4PSIyMCIgZmlsbD0iI2Q5OTIyZSIgdHJhbnNmb3JtPSJyb3RhdGUoOCAxNzIgMTE0KSIvPjxjaXJjbGUgY3g9IjE2MiIgY3k9IjEwNiIgcj0iNCIgZmlsbD0iI2YwYjQ1YSIvPjxjaXJjbGUgY3g9IjE4MiIgY3k9IjEyMCIgcj0iMyIgZmlsbD0iI2YwYjQ1YSIvPjxyZWN0IHg9IjExMCIgeT0iMTUwIiB3aWR0aD0iNjQiIGhlaWdodD0iNDgiIHJ4PSIyMCIgZmlsbD0iI2Q5OTIyZSIgdHJhbnNmb3JtPSJyb3RhdGUoMTUgMTQyIDE3NCkiLz48Y2lyY2xlIGN4PSIxMzIiIGN5PSIxNjYiIHI9IjQiIGZpbGw9IiNmMGI0NWEiLz48Y2lyY2xlIGN4PSIxNTIiIGN5PSIxODAiIHI9IjMiIGZpbGw9IiNmMGI0NWEiLz48cmVjdCB4PSIxODUiIHk9IjE0MCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjQ4IiByeD0iMjAiIGZpbGw9IiNkOTkyMmUiIHRyYW5zZm9ybT0icm90YXRlKC02IDIxNyAxNjQpIi8+PGNpcmNsZSBjeD0iMjA3IiBjeT0iMTU2IiByPSI0IiBmaWxsPSIjZjBiNDVhIi8+PGNpcmNsZSBjeD0iMjI3IiBjeT0iMTcwIiByPSIzIiBmaWxsPSIjZjBiNDVhIi8+PHJlY3QgeD0iMjE1IiB5PSI5NSIgd2lkdGg9IjY0IiBoZWlnaHQ9IjQ4IiByeD0iMjAiIGZpbGw9IiNkOTkyMmUiIHRyYW5zZm9ybT0icm90YXRlKDIwIDI0NyAxMTkpIi8+PGNpcmNsZSBjeD0iMjM3IiBjeT0iMTExIiByPSI0IiBmaWxsPSIjZjBiNDVhIi8+PGNpcmNsZSBjeD0iMjU3IiBjeT0iMTI1IiByPSIzIiBmaWxsPSIjZjBiNDVhIi8+PHJlY3QgeD0iMjkwIiB5PSIxMjAiIHdpZHRoPSI1NiIgaGVpZ2h0PSI2MiIgcng9IjgiIGZpbGw9IiNlNTM5MzUiLz48ZWxsaXBzZSBjeD0iMzE4IiBjeT0iMTIwIiByeD0iMjgiIHJ5PSI4IiBmaWxsPSIjZmZkNTRmIi8+PHJlY3QgeD0iMjkwIiB5PSIxNDAiIHdpZHRoPSI1NiIgaGVpZ2h0PSIxMCIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjYiLz48L3N2Zz4=" alt="Pollo crujiente estilo nuggets" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                            <div class="absolute inset-0 bg-black/15"></div>
+                            <span class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded font-bold">7.50 €</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">Nuggets Rockeros</h3>
+                        <p class="text-gray-400 text-xs mb-4">8 piezas de pollo 100% crujiente acompañadas de salsa agridulce especial o dip de queso picante.</p>
+                    </div>
+                    <button onclick="orderItem('Nuggets Rockeros')" class="w-full bg-red-500/20 hover:bg-red-600 text-red-400 hover:text-white border border-red-500 text-xs font-bold py-2.5 rounded-xl transition-colors">
+                        Pedir Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="arcade" class="py-24 bg-darkBg relative border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-neonYellow font-arcade text-xs tracking-widest uppercase">Diversión Sin Límite</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Zona Arcade & <span class="text-neonYellow font-creepster">Entretenimiento</span></h2>
+                    <p class="text-gray-400 text-base">
+                        Mientras esperas tu pedido o después de cenar, diviértete en nuestra zona retro inspirada en los salones recreativos clásicos de los 80. ¡Gana tickets y cámbialos por premios exclusivos de Bons!
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4 bg-cardBg border border-gray-800 p-4 rounded-xl">
+                            <div class="bg-neonPurple/20 text-neonPurple p-3 rounded-lg"><i class="fa-solid fa-gamepad text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white">Pinballs Clásicos & Arcade Máquinas</h4>
+                                <p class="text-xs text-gray-400">Juegos de pelea, carreras y clásicos retro con partidas ilimitadas con tu ticket de consumo.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4 bg-cardBg border border-gray-800 p-4 rounded-xl">
+                            <div class="bg-neonBlue/20 text-neonBlue p-3 rounded-lg"><i class="fa-solid fa-gift text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white">Caza de Peluches de Bon</h4>
+                                <p class="text-xs text-gray-400">Intenta atrapar el peluche oficial de Bon the Bear en nuestra garra mecánica de alta precisión.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arcade Visual Box -->
+                <div class="bg-cardBg border-2 border-neonYellow rounded-3xl p-8 neon-box relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-10">
+                        <i class="fa-solid fa-gamepad text-9xl text-neonYellow"></i>
+                    </div>
+                    <h3 class="font-arcade text-neonYellow text-lg mb-6 tracking-wide">ESTADÍSTICAS DEL SALÓN</h3>
+                    <div class="h-48 rounded-2xl overflow-hidden border border-neonYellow/40 mb-6">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjQwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM0YTE0OGMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxYjEwNDgiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI0MCIgZmlsbD0idXJsKCNnKSIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzUwIiB5PSI0MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iNjAiIHk9IjE5MCIgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iLjM1Ii8+PHJlY3QgeD0iMzQwIiB5PSIyMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii4zNSIvPjxyZWN0IHg9IjMyMCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48cmVjdCB4PSI0MCIgeT0iMTEwIiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz48cmVjdCB4PSI1MCIgeT0iMjgiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTkwIiByeD0iOCIgZmlsbD0iI2U1MzkzNSIvPjxyZWN0IHg9IjU4IiB5PSIzNiIgd2lkdGg9Ijg0IiBoZWlnaHQ9IjE4IiByeD0iNCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjYwIiB5PSI2MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjY0IiByeD0iNCIgZmlsbD0iIzEyMDYyZSIvPjxyZWN0IHg9IjY2IiB5PSI3MCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiM3NmZmMDMiLz48cmVjdCB4PSI5NCIgeT0iODIiIHdpZHRoPSIxMCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmY0MDgxIi8+PHJlY3QgeD0iMTIyIiB5PSI3MCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiMxOGZmZmYiLz48cmVjdCB4PSI4MCIgeT0iMTA2IiB3aWR0aD0iMTAiIGhlaWdodD0iOCIgZmlsbD0iI2ZmZWEwMCIvPjxyZWN0IHg9IjEwOCIgeT0iMTA2IiB3aWR0aD0iMTAiIGhlaWdodD0iOCIgZmlsbD0iIzc2ZmYwMyIvPjxyZWN0IHg9IjU2IiB5PSIxMzIiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzM3NDc0ZiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iMTQ0IiByPSI2IiBmaWxsPSIjZmYxNzQ0Ii8+PGNpcmNsZSBjeD0iMTEwIiBjeT0iMTQ0IiByPSI1IiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMTI4IiBjeT0iMTQ0IiByPSI1IiBmaWxsPSIjMDBlNWZmIi8+PHJlY3QgeD0iMTUwIiB5PSIyOCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxOTAiIHJ4PSI4IiBmaWxsPSIjMWU4OGU1Ii8+PHJlY3QgeD0iMTU4IiB5PSIzNiIgd2lkdGg9Ijg0IiBoZWlnaHQ9IjE4IiByeD0iNCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjE2MCIgeT0iNjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2NCIgcng9IjQiIGZpbGw9IiMxMjA2MmUiLz48cmVjdCB4PSIxNjYiIHk9IjcwIiB3aWR0aD0iMTAiIGhlaWdodD0iOCIgZmlsbD0iIzc2ZmYwMyIvPjxyZWN0IHg9IjE5NCIgeT0iODIiIHdpZHRoPSIxMCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmY0MDgxIi8+PHJlY3QgeD0iMjIyIiB5PSI3MCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiMxOGZmZmYiLz48cmVjdCB4PSIxODAiIHk9IjEwNiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiNmZmVhMDAiLz48cmVjdCB4PSIyMDgiIHk9IjEwNiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiM3NmZmMDMiLz48cmVjdCB4PSIxNTYiIHk9IjEzMiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMzc0NzRmIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMTQ0IiByPSI2IiBmaWxsPSIjZmYxNzQ0Ii8+PGNpcmNsZSBjeD0iMjEwIiBjeT0iMTQ0IiByPSI1IiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMjI4IiBjeT0iMTQ0IiByPSI1IiBmaWxsPSIjMDBlNWZmIi8+PHJlY3QgeD0iMjUwIiB5PSIyOCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxOTAiIHJ4PSI4IiBmaWxsPSIjZmRkODM1Ii8+PHJlY3QgeD0iMjU4IiB5PSIzNiIgd2lkdGg9Ijg0IiBoZWlnaHQ9IjE4IiByeD0iNCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjI2MCIgeT0iNjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI2NCIgcng9IjQiIGZpbGw9IiMxMjA2MmUiLz48cmVjdCB4PSIyNjYiIHk9IjcwIiB3aWR0aD0iMTAiIGhlaWdodD0iOCIgZmlsbD0iIzc2ZmYwMyIvPjxyZWN0IHg9IjI5NCIgeT0iODIiIHdpZHRoPSIxMCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmY0MDgxIi8+PHJlY3QgeD0iMzIyIiB5PSI3MCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiMxOGZmZmYiLz48cmVjdCB4PSIyODAiIHk9IjEwNiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiNmZmVhMDAiLz48cmVjdCB4PSIzMDgiIHk9IjEwNiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjgiIGZpbGw9IiM3NmZmMDMiLz48cmVjdCB4PSIyNTYiIHk9IjEzMiIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMzc0NzRmIi8+PGNpcmNsZSBjeD0iMjgwIiBjeT0iMTQ0IiByPSI2IiBmaWxsPSIjZmYxNzQ0Ii8+PGNpcmNsZSBjeD0iMzEwIiBjeT0iMTQ0IiByPSI1IiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMzI4IiBjeT0iMTQ0IiByPSI1IiBmaWxsPSIjMDBlNWZmIi8+PHJlY3QgeT0iMjE4IiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIyIiBmaWxsPSIjMTIwNjJlIi8+PC9zdmc+" alt="Máquinas y ambiente de videojuegos" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="bg-darkBg p-4 rounded-xl border border-gray-800 text-center">
+                            <span class="block text-3xl font-extrabold text-neonBlue font-arcade">24</span>
+                            <span class="text-xs text-gray-400">Máquinas Recreativas</span>
+                        </div>
+                        <div class="bg-darkBg p-4 rounded-xl border border-gray-800 text-center">
+                            <span class="block text-3xl font-extrabold text-neonPurple font-arcade">1.4k</span>
+                            <span class="text-xs text-gray-400">Peluches Entregados</span>
+                        </div>
+                    </div>
+                    <div class="bg-darkBg/80 p-4 rounded-xl border border-neonYellow/40 text-center">
+                        <p class="text-xs text-neonYellow font-arcade">¡DISPONIBLE FICHAS GRATIS CON TU MENÚ INFANTIL!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="horarios" class="py-24 bg-cardBg border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-neonPurple font-arcade text-xs tracking-widest uppercase">¿CUÁNDO ABRIMOS?</span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mt-2 mb-12">Horarios de <span class="text-neonPurple font-creepster">Apertura</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-darkBg border border-gray-800 rounded-2xl p-6">
+                    <i class="fa-solid fa-sun text-neonYellow text-3xl mb-4"></i>
+                    <h3 class="font-bold text-white text-lg mb-2">Lunes a Jueves</h3>
+                    <p class="text-neonBlue font-arcade text-sm">13:00 - 23:00 h</p>
+                    <p class="text-xs text-gray-500 mt-2">Shows cada hora en punto</p>
+                </div>
+                <div class="bg-darkBg border border-neonPurple rounded-2xl p-6 shadow-lg shadow-neonPurple/20">
+                    <i class="fa-solid fa-moon text-neonPurple text-3xl mb-4"></i>
+                    <h3 class="font-bold text-white text-lg mb-2">Viernes y Sábados</h3>
+                    <p class="text-neonYellow font-arcade text-sm">13:00 - 02:00 h</p>
+                    <p class="text-xs text-gray-500 mt-2">¡Noche de concierto con Foxy & Bon!</p>
+                </div>
+                <div class="bg-darkBg border border-gray-800 rounded-2xl p-6">
+                    <i class="fa-solid fa-utensils text-neonBlue text-3xl mb-4"></i>
+                    <h3 class="font-bold text-white text-lg mb-2">Domingos y Festivos</h3>
+                    <p class="text-neonBlue font-arcade text-sm">12:30 - 00:00 h</p>
+                    <p class="text-xs text-gray-500 mt-2">Especial fiestas infantiles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservas" class="py-24 bg-darkBg relative border-t border-gray-900 stage-lights">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-cardBg border-2 border-neonPurple rounded-3xl p-8 sm:p-12 shadow-2xl neon-box">
+                <div class="text-center space-y-3 mb-10">
+                    <span class="text-neonYellow font-arcade text-xs tracking-widest uppercase">¡Reserva Tu Espacio!</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold">Mesas & Fiestas de <span class="text-neonYellow font-creepster">Cumpleaños</span></h2>
+                    <p class="text-gray-400 text-sm">Asegura tu sitio en primera fila frente al escenario principal o celebra tu cumpleaños junto a nuestros animatrónicos.</p>
+                </div>
+
+                <form id="reservation-form" onsubmit="handleReservation(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-arcade text-gray-300 mb-2">NOMBRE COMPLETO</label>
+                            <input type="text" id="res-name" required class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neonPurple transition-colors" placeholder="Ej. Laura García">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-arcade text-gray-300 mb-2">CORREO ELECTRÓNICO</label>
+                            <input type="email" id="res-email" required class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neonPurple transition-colors" placeholder="laura@correo.com">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-arcade text-gray-300 mb-2">FECHA</label>
+                            <input type="date" id="res-date" required class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neonPurple transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-arcade text-gray-300 mb-2">HORA</label>
+                            <select id="res-time" required class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neonPurple transition-colors">
+                                <option value="13:00">13:00 h (Almuerzo)</option>
+                                <option value="15:00">15:00 h (Tarde)</option>
+                                <option value="18:00">18:00 h (Merienda)</option>
+                                <option value="20:00">20:00 h (Cena Show)</option>
+                                <option value="22:00">22:00 h (Nocturno)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-arcade text-gray-300 mb-2">TIPO DE RESERVA</label>
+                            <select id="res-type" required class="w-full bg-darkBg border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neonPurple transition-colors">
+                                <option value="Mesa Estándar">Mesa Frente al Escenario</option>
+                                <option value="Fiesta Cumpleaños">Fiesta de Cumpleaños 🎉</option>
+                                <option value="VIP Zona Arcade">Zona VIP Arcade</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 text-center">
+                        <button type="submit" class="w-full sm:w-auto bg-neonYellow hover:bg-neonYellow/90 text-darkBg font-extrabold text-base px-10 py-4 rounded-xl shadow-lg shadow-neonYellow/30 transition-all hover:scale-105">
+                            Confirmar Mi Reserva Animatrónica
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Success notification box -->
+                <div id="success-msg" class="hidden mt-6 bg-green-950/40 border border-green-500 text-green-400 p-4 rounded-xl text-center text-sm font-semibold">
+                    ¡Reserva registrada con éxito! Te esperamos en Bons Burguer. ¡Que disfrutes del show!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0f0833] py-12 border-t border-gray-900 text-center text-xs text-gray-500 space-y-4 px-4">
+        <div class="flex justify-center space-x-6 text-xl text-gray-400 mb-4">
+            <a href="#" class="hover:text-neonPurple transition-colors"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="hover:text-neonBlue transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-neonYellow transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        
+        <p class="max-w-xl mx-auto italic text-gray-400">
+            "Bons Burguer no se hace responsable por papas fritas que desaparezcan misteriosamente cuando suene la música ni por las carcajadas que provoque el show."
+        </p>
+        
+        <p class="pt-4 border-t border-gray-900/50">
+            &copy; 2026 Bons Burguer Inc. Todos los derechos reservados. Diseñado para fans de la diversión y los videojuegos retro.
+        </p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al pulsar un enlace
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+        // No permitir reservas en fechas pasadas
+        document.getElementById('res-date').min = new Date().toISOString().split('T')[0];
+
+        // Toggle Animatronic Status
+        function toggleStatus(elementId, btn) {
+            const badge = document.getElementById(elementId);
+            if (badge.classList.contains('bg-green-500/20')) {
+                badge.className = 'absolute top-4 left-4 bg-yellow-500/20 border border-yellow-500 text-yellow-400 text-xs font-arcade px-2.5 py-1 rounded-full';
+                badge.innerHTML = '⚠ EN MANTENIMIENTO';
+                btn.innerText = 'Activar';
+            } else {
+                badge.className = 'absolute top-4 left-4 bg-green-500/20 border border-green-500 text-green-400 text-xs font-arcade px-2.5 py-1 rounded-full';
+                badge.innerHTML = '● ACTIVO';
+                btn.innerText = 'Cambiar Estado';
+            }
+        }
+
+        // Order item simulated action
+        function orderItem(itemName) {
+            alertCustom('¡Has añadido "' + itemName + '" a tu pedido! Prepárate para el sabor.');
+        }
+
+        // Reservation Form submission
+        function handleReservation(e) {
+            e.preventDefault();
+            const name = document.getElementById('res-name').value;
+            const successBox = document.getElementById('success-msg');
+            successBox.classList.remove('hidden');
+            successBox.textContent = '';
+            const strong = document.createElement('strong');
+            strong.textContent = name; // textContent evita inyectar HTML desde el nombre
+            successBox.append('¡Fantástico, ', strong, '! Tu reserva en Bons Burguer ha sido guardada.');
+            document.getElementById('reservation-form').reset();
+            setTimeout(() => {
+                successBox.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // Custom non-blocking message box simulation instead of native alert
+        function alertCustom(message) {
+            const existing = document.getElementById('custom-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'custom-toast';
+            toast.className = 'fixed bottom-6 right-6 z-50 bg-cardBg border-2 border-neonYellow text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 animate-bounce';
+            toast.innerHTML = `
+                <i class="fa-solid fa-burger text-neonYellow text-xl"></i>
+                <span class="text-sm font-semibold">${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
